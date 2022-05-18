@@ -185,32 +185,46 @@ def eml_to_JSON(eml_file, type,local,timestamp, test):
 			print("saving results locally")
 			fileOut.write(summaryJson)		
 
+		print("Connecting to S3")
+
+		bucket = 'gdn-cdn'
+
+		if 'AWS_SESSION_TOKEN' in os.environ:
+			session = boto3.Session(
+			aws_access_key_id=AWS_KEY,
+			aws_secret_access_key=AWS_SECRET,
+			aws_session_token = AWS_SESSION
+			)
+		else:
+			session = boto3.Session(
+			aws_access_key_id=AWS_KEY,
+			aws_secret_access_key=AWS_SECRET,
+			)
+		
+		s3 = session.resource('s3')	
+
 
 		if test:
-			print("No uploading, in test mode")
+			key = "2022/05/aus-election/results-data-test/{timestamp}.json".format(timestamp=timestamp)
+			object = s3.Object(bucket, key)
+			object.put(Body=newJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			print("Done")
 
-		# Save to s3	
+
+			key2 = "2022/05/aus-election/results-data-test/summaryResults.json"	
+			object = s3.Object(bucket, key2)
+			object.put(Body=summaryJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			print("Done")
+
+
+			key3 = "2022/05/aus-election/results-data-test/{timestamp}-swing.json".format(timestamp=timestamp)	
+			object = s3.Object(bucket, key3)
+			object.put(Body=swingJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			print("Done")
+
+			print("Done, JSON is uploaded")
 
 		else:
-
-			print("Connecting to S3")
-
-			bucket = 'gdn-cdn'
-
-			if 'AWS_SESSION_TOKEN' in os.environ:
-				session = boto3.Session(
-				aws_access_key_id=AWS_KEY,
-				aws_secret_access_key=AWS_SECRET,
-				aws_session_token = AWS_SESSION
-				)
-			else:
-				session = boto3.Session(
-				aws_access_key_id=AWS_KEY,
-				aws_secret_access_key=AWS_SECRET,
-				)
-			
-			s3 = session.resource('s3')
-		
 			key = "2022/05/aus-election/results-data/{timestamp}.json".format(timestamp=timestamp)
 			object = s3.Object(bucket, key)
 			object.put(Body=newJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")

@@ -24,8 +24,9 @@ print("CHANGE TO mediafeed.aec.gov.au ON ELECTION NIGHT JFC")
 
 verbose = False
 feedtest = True
+resultsTest = True
 electionID = '24310'
-testTime = datetime.strptime("2016-07-02 19:00","%Y-%m-%d %H:%M")
+testTime = datetime.strptime("2019-05-18 19:00","%Y-%m-%d %H:%M")
 path = '/{electionID}/Standard/Verbose/'.format(electionID=electionID)
 
 
@@ -37,6 +38,7 @@ else:
 	ftpPath = 'mediafeed.aec.gov.au'	
 
 print("using ", ftpPath)
+
 def parse_results(test):
 	print("Logging in to AEC FTP")
 
@@ -173,31 +175,34 @@ def parse_results(test):
 
 # Use scheduler to time function every 2 minutes
 
-parse_results(False)
+if not resultsTest:
+	parse_results(False)
 
-schedule.every(2).minutes.do(parse_results,False)
+	schedule.every(2).minutes.do(parse_results,False)
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
-    print(datetime.now())
+	while True:
+	    schedule.run_pending()
+	    time.sleep(1)
+	    print(datetime.now())
 
 # Test function, counts from 6 pm to 11 pm on election night 2013    
 
-# def runTest():
-# 	global testTime
-# 	endTime = datetime.strptime("2016-07-02 23:00","%Y-%m-%d %H:%M")
-# 	parse_results(True)
-# 	schedule.every(2).minutes.do(parse_results,True)
-	
-# 	while testTime < endTime:
-# 		schedule.run_pending()
-# 		testTime = testTime + timedelta(seconds=1)
-# 		print(testTime)
-# 		time.sleep(1)
+elif resultsTest:
+
+	def runTest():
+		global testTime
+		endTime = datetime.strptime("2019-05-18 23:00","%Y-%m-%d %H:%M")
+		parse_results(True)
+		schedule.every(1).minutes.do(parse_results,True)
+		
+		while testTime < endTime:
+			schedule.run_pending()
+			testTime = testTime + timedelta(minutes=1)
+			print(testTime)
+			time.sleep(1)
 
 
-# runTest()
+	runTest()
 
 # parse_results(True)
 # ftp.quit()
