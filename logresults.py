@@ -85,7 +85,7 @@ def saveRecentResults(timestamp, test):
 			key = "2022/05/aus-election/results-data/recentResults.json"
 
 		object = s3.Object(bucket, key)
-		object.put(Body=newJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+		object.put(Body=newJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 		print("Done, JSON is updated")
 
 	# Otherwise start a new file		
@@ -118,7 +118,7 @@ def saveRecentResults(timestamp, test):
 		else:
 			key = "2022/05/aus-election/results-data/recentResults.json"	
 		object = s3.Object(bucket, key)
-		object.put(Body=newJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+		object.put(Body=newJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 		print("Done")		
 
 # saveRecentResults()

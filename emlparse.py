@@ -207,19 +207,19 @@ def eml_to_JSON(eml_file, type,local,timestamp, test):
 		if test:
 			key = "2022/05/aus-election/results-data-test/{timestamp}.json".format(timestamp=timestamp)
 			object = s3.Object(bucket, key)
-			object.put(Body=newJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			object.put(Body=newJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 			print("Done")
 
 
 			key2 = "2022/05/aus-election/results-data-test/summaryResults.json"	
 			object = s3.Object(bucket, key2)
-			object.put(Body=summaryJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			object.put(Body=summaryJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 			print("Done")
 
 
 			key3 = "2022/05/aus-election/results-data-test/{timestamp}-swing.json".format(timestamp=timestamp)	
 			object = s3.Object(bucket, key3)
-			object.put(Body=swingJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			object.put(Body=swingJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 			print("Done")
 
 			print("Done, JSON is uploaded")
@@ -227,19 +227,19 @@ def eml_to_JSON(eml_file, type,local,timestamp, test):
 		else:
 			key = "2022/05/aus-election/results-data/{timestamp}.json".format(timestamp=timestamp)
 			object = s3.Object(bucket, key)
-			object.put(Body=newJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			object.put(Body=newJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 			print("Done")
 
 
 			key2 = "2022/05/aus-election/results-data/summaryResults.json"	
 			object = s3.Object(bucket, key2)
-			object.put(Body=summaryJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			object.put(Body=summaryJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 			print("Done")
 
 
 			key3 = "2022/05/aus-election/results-data/{timestamp}-swing.json".format(timestamp=timestamp)	
 			object = s3.Object(bucket, key3)
-			object.put(Body=swingJson, CacheControl="max-age=90", ACL='public-read', ContentType="application/json")
+			object.put(Body=swingJson, CacheControl="max-age=30", ACL='public-read', ContentType="application/json")
 			print("Done")
 
 			print("Done, JSON is uploaded")
