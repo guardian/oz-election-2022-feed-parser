@@ -26,7 +26,7 @@ verbose = False
 feedtest = True
 resultsTest = True
 electionID = '24310'
-testTime = datetime.strptime("2019-05-18 19:00","%Y-%m-%d %H:%M")
+testTime = datetime.strptime("2019-05-18 15:00","%Y-%m-%d %H:%M")
 path = '/{electionID}/Standard/Verbose/'.format(electionID=electionID)
 
 
