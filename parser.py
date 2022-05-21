@@ -19,14 +19,17 @@ import time
 
 print("CHANGE TO mediafeed.aec.gov.au ON ELECTION NIGHT JFC")
 
+# 2022 is 27966
 # 2019 election is 24310
 # 2016 is 20499
 
 verbose = False
-feedtest = True
+feedtest = False
 resultsTest = True
-electionID = '24310'
-testTime = datetime.strptime("2019-05-18 15:00","%Y-%m-%d %H:%M")
+
+print("Results testing", resultsTest)
+electionID = '27966'
+testTime = datetime.strptime("2019-05-18 23:00","%Y-%m-%d %H:%M")
 path = '/{electionID}/Standard/Verbose/'.format(electionID=electionID)
 
 
@@ -175,34 +178,34 @@ def parse_results(test):
 
 # Use scheduler to time function every 2 minutes
 
-if not resultsTest:
-	parse_results(False)
+# if not resultsTest:
+parse_results(False)
 
-	schedule.every(2).minutes.do(parse_results,False)
+schedule.every(2).minutes.do(parse_results,False)
 
-	while True:
-	    schedule.run_pending()
-	    time.sleep(1)
-	    print(datetime.now())
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+    print(datetime.now())
 
 # Test function, counts from 6 pm to 11 pm on election night 2013    
 
-elif resultsTest:
+# elif resultsTest:
 
-	def runTest():
-		global testTime
-		endTime = datetime.strptime("2019-05-18 23:00","%Y-%m-%d %H:%M")
-		parse_results(True)
-		schedule.every(1).minutes.do(parse_results,True)
+# 	def runTest():
+# 		global testTime
+# 		endTime = datetime.strptime("2019-06-18 23:00","%Y-%m-%d %H:%M")
+# 		parse_results(True)
+# 		schedule.every(1).minutes.do(parse_results,True)
 		
-		while testTime < endTime:
-			schedule.run_pending()
-			testTime = testTime + timedelta(minutes=1)
-			print(testTime)
-			time.sleep(1)
+# 		while testTime < endTime:
+# 			schedule.run_pending()
+# 			testTime = testTime + timedelta(minutes=1)
+# 			print(testTime)
+# 			time.sleep(1)
 
 
-	runTest()
+# 	runTest()
 
 # parse_results(True)
 # ftp.quit()

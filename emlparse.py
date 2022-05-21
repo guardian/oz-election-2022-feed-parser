@@ -95,7 +95,7 @@ def eml_to_JSON(eml_file, type,local,timestamp, test):
 					electorates_json['name'] = contest['PollingDistrictIdentifier']['Name']
 					swing_json['name'] = electorates_json['name']
 
-					print(contest['PollingDistrictIdentifier']['Name'])
+					# print(contest['PollingDistrictIdentifier']['Name'])
 					electorates_json['state'] = contest['PollingDistrictIdentifier']['StateIdentifier']['@Id']
 					swing_json['state'] = electorates_json['state']
 
